@@ -26,13 +26,14 @@ router.post("/deng",function(req,res){
 	var uname = req.body['username'];
 	var pwd = req.body['password'];
 	getUserByName(uname,function(err,result){
+		console.log(result)
 			if(result=="" || result==null){
 					res.send({flag:2})
 				}
-			else if(pwd==result[0].password){
+			else if(pwd==result[0].upwd){
 					res.send({flag:1})
 				}
-			else if(pwd!=result[0].password){
+			else if(pwd!=result[0].upwd){
 					res.send({flag:3})
 			}else{
 				res.send({flag:4}) //登录失败

@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/item', item);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,7 +44,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(8005,function(){
+app.listen('8006',function(){
   console.log('startup 1224444.....');
 })
 
