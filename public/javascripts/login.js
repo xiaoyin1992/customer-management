@@ -154,7 +154,7 @@ window.onload = function(){
 				async:true,
 				success:function(e){
 					if(e.flag==1){
-						alert('success')
+						window.location.href="xinxi.html"
 					}else if(e.flag==2){
 						alert('not found')
 					}else if(e.flag==3){

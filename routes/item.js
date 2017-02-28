@@ -26,11 +26,14 @@ router.post("/deng",function(req,res){
 	var uname = req.body['username'];
 	var pwd = req.body['password'];
 	getUserByName(uname,function(err,result){
-		console.log(result)
+		console.log(req.session)
 			if(result=="" || result==null){
 					res.send({flag:2})
 				}
 			else if(pwd==result[0].upwd){
+					req.session.uname=uname; //设置session  后面的uname就是用户登录的用户名 是前台给的数据
+					req.session.uid=result[0].uid;
+					//req.session.destory() 清除session
 					res.send({flag:1})
 				}
 			else if(pwd!=result[0].upwd){
@@ -75,6 +78,97 @@ router.post("/register",function(req,res){
 
 })
 
+//列表-------
+router.get("/list",function(req,res){
+	if(req.session.uname){
+	var teg = req.param('teg');
+	var uid = req.session.uid;
+	console.log(teg)
+	pool.getConnection(function(err,connection){
+		var sql="select * from custom where teg = ? && cid = ?";
+		connection.query(sql,[teg,uid],function(err,result){
+			
+				if(err){
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				console.log(result+">>>>>")
+				res.send(result);
+		})
+		
+	})
+	}else{
+		res.send({flag:2})
+	}
+})
+
+
+router.get("/del",function(req,res){
+	var uid = req.param('uid');
+	console.log(uid)
+	pool.getConnection(function(err,connection){
+		var sql="delete from custom where uid = ?";
+		connection.query(sql,[uid],function(err,result){
+			
+				if(err){
+					res.send({flag:2})
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				console.log(result+">>>>>")
+				res.send({flag:1});
+		})
+		
+	})
+})
+
+router.get("/xiangq",function(req,res){
+	var uid = req.param('uid');
+	console.log(uid)
+	pool.getConnection(function(err,connection){
+		var sql="select * from custom where uid = ?";
+		connection.query(sql,[uid],function(err,result){
+			
+				if(err){
+					res.send({flag:2})
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				console.log(result+">>>>>")
+				res.send(result);
+		})
+		
+	})
+})
+
+//修改
+router.get("/xiugai",function(req,res){
+	var uid = req.param('uid');
+	var uname = req.param('uname');
+	var utel = req.param('utel');
+	var uemail = req.param('uemail');
+	var unicheng = req.param('unicheng');
+	console.log(uid)
+	pool.getConnection(function(err,connection){
+		var sql="update custom set uname=? , utel=? , uemail=? , unicheng=? where uid=?";
+		connection.query(sql,[uname,utel,uemail,unicheng,uid],function(err,result){
+			
+				if(err){
+					res.send({flag:2})
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				//console.log(result+">>>>>")
+				res.send({flag:1});
+		})
+		
+	})
+})
+
 	//根据用户名获取 用户信息  查询数据
 	function getUserByName(uname,callback){
 		pool.getConnection(function(err,connection){
@@ -105,5 +199,46 @@ router.post("/register",function(req,res){
 			});
 		})
 	}
+	
+	//分页
+	router.get('/page', function(req, res) {
+	console.log('into page...');
+	if(req.session.uname){
+	var page = req.query.page;
+	var uid = req.session.uid;
+	var total = 0;
+	var pageNum = 2;
+	var startPage = (page-1)*pageNum;
+		console.log('page'+ uid);
+	pool.getConnection(function(err, connection) {
+		var sql = 'select * from custom where cid = ?';
+		connection.query(sql, [uid], function(err, result) {
+			if(err) {
+				return;
+			}
+			total = result.length;
+//			console.log("result:" + result.length);
+			console.log('total:' + total)
+			connection.release(); //释放连接
+			if(total > 0) {
+				pool.getConnection(function(err, connection) {
+					var sql = 'select * from custom where cid = ? limit ?,?';
+					connection.query(sql, [uid,startPage,pageNum], function(err, result) {
+						if(err) {
+							return;
+						}
+						console.log("result:" + result.length);
+						connection.release(); //释放连接
+						res.send({pageNum:pageNum,total:total,result:result});
+					})
+				})
+			}
+		})
+	})
+}else{
+		res.send({flag:2})
+	}
+});
+
 	
 module.exports = router;

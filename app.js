@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -22,6 +23,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+	secret:'12345',
+	name:'testapp', //这里的name指的是cookie的name
+	//cookie:{maxAge:8000},//设置过期时间
+	resave:false,
+	saveUninitialized:true
+}))
 app.use('/', index);
 app.use('/users', users);
 app.use('/item', item);
@@ -43,6 +51,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 app.listen('8006',function(){
   console.log('startup 1224444.....');

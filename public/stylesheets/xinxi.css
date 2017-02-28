@@ -1,0 +1,84 @@
+*{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.yky_list{
+	width: 80%;
+	padding-left: 30px;
+	float: left;
+	/*background: lightblue;*/
+}
+.yky_content{
+	background: #fff;
+	padding: 20px;
+}
+.yky_title{
+	height: 56px;
+	font-weight: bold;
+	line-height: 56px;
+}
+.yky_header{
+	padding: 20px 0;
+}
+.yky_header input{
+	width: 600px;
+	height: 35px;
+}
+.yky_header button{
+	width: 140px;
+	height: 35px;
+	margin-left: 10px;
+	background: deepskyblue;
+	color: #fff;
+	line-height: 35px;
+	text-align: center;
+	border: none;
+}
+.yky_li_con{
+	min-height: 400px;
+}
+.yky_ul li:nth-child(1){
+	border-bottom: 2px solid #A19BA5;
+}
+.yky_ul li{
+	height: 46px;
+	line-height: 46px;
+	display: flex;
+	border-bottom: 1px solid #A19BA5;
+}
+.yky_ul li span:nth-child(3){
+	flex: 2;
+}
+.yky_ul li span{
+	flex: 1;
+	display: block;
+}
+.yky_control{
+	height: 50px;
+	line-height: 50px;
+	color: #333;
+	text-align: center;
+}
+.yky_control span{
+	width: 50px;
+	float: left;
+}
+.yky_ul .del{
+	display: inline-block;
+	width: 30px;
+	height: 46px;
+	/*background: url(../images/icon2.png) no-repeat center;*/
+}
+.yky_ul .xiangqing{
+	display: inline-block;
+	width: 30px;
+	height: 46px;
+	/*background: url(../images/icon1.png) no-repeat center;*/
+}
+
+#pagenum{
+	width: 40px;
+	float: left;
+	margin-top: 16px;
+}

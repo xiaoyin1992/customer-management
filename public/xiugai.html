@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="javascripts/jquery-2.1.4.min.js" ></script>
+	</head>
+	<body>
+		<script>
+		var urll=window.location.href;
+			var url1=urll.split("?");
+			var url2=url1[1].split("=");
+			$.ajax({
+				type:"get",
+				url:"http://localhost:8006/item/xiangq",
+				async:true,
+				data:{uid:url2[1]},
+				success:function(e){
+					var oli="";
+					$(e).each(function(n,m){
+						oli+="<ul><li>用户名：<input id='uname' type='text' value="+m.uname+" /></li><li>电话：<input type='text' value="+m.utel+" id='utel' /></li><li>邮箱：<input type='text' id='uemail' value="+m.uemail+" /></li><li>昵称：<input type='text' id='unicheng'  value="+m.unicheng+" /></li><li><button id='xiugai'>修改</button></li></ul>"
+					})
+					$("body").html(oli);
+					$("#xiugai").click(function(){
+						$.ajax({
+							type:"get",
+							url:"http://localhost:8006/item/xiugai",
+							async:true,
+							data:{uid:url2[1],uname:$("#uname").val(),utel:$("#utel").val(),uemail:$("#uemail").val(),unicheng:$("#unicheng").val()},
+							success:function(e){
+								if(e.flag==1){
+									alert("success")
+									location.href="xiangqing.html?uid="+url2[1];
+								}
+							}
+						});
+					})
+				}
+			});
+		</script>
+	</body>
+</html>
