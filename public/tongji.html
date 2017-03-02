@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="stylesheets/detail.css"/>
+		<script src="javascripts/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="javascripts/Chart.min.js"></script>
+		<body>
+			<div class="nav">
+
+			</div>
+			<div class="main">
+				<div class="leftbar">
+				<ul>
+						<li style="margin-top:23px;" class="list">
+							<a href="javascript:;" id="culist">客户列表</a>
+						</li>
+						<li>
+							<a href="javascript:;" id="ghlist">公海信息</a>
+						</li>
+						<li style="background:#76b6fe">
+							<a href="javascript:;" id="tongji">统计信息</a>
+						</li>
+					</ul>
+				</div>
+				<!--客户信息-->
+				<div class="y_conner" style="width: 80%;height:836px;float: right;">
+						<span class="t_nav">统计信息</span>
+						<div class="t_bottom">
+							<canvas id="chart"></canvas>
+						</div>
+				</div>
+			</div>
+		</body>
+</html>
+<script type="text/javascript">
+	$('.list').click(function(){
+		window.location = 'xinxi.html';
+	})
+
+
+	var arr1 = [0,0,0];
+	
+	$.ajax({
+		type:"get",
+		url:"http://localhost:8006/item/list",
+		async:true,
+		data:{
+			teg:1
+		},
+		success:function(e){
+			console.log(e)
+			for(var i = 0;i<e.length;i++){
+				if(20<e[i].age<30){
+					arr1[0]++;
+				}else if(30<=e[i].age<40){
+					arr1[1]++;
+				}else if(40<=e[i].age<50){
+					arr1[2]++;
+				}
+			}
+//			console.log(arr1)
+			bing(document.getElementById('chart'),arr1,'年龄比例图');
+		},
+		error:function(){
+			alert('error');
+		}
+	});
+	
+	
+	
+	//		饼状图   所占比例
+		function bing(a, c, d) {
+			var myChart = new Chart(a, {
+				type: 'pie',
+				data: {
+					labels: ['40以下','40到60','70以上'],
+					datasets: [{
+						data: c,
+						backgroundColor: [
+							"#FF6384",
+							"#36A2EB",
+							"#FFCE56",
+							'rgba(255,99,132,1)',
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)'
+						],
+						hoverBackgroundColor: [
+							"#FF6384",
+							"#36A2EB",
+							"#FFCE56",
+							'rgba(255,99,132,1)',
+							'rgba(255,99,132,1)',
+							'rgba(54, 162, 235, 1)',
+							'rgba(255, 206, 86, 1)'
+						]
+					}]
+				},
+				options: {
+					title: {
+						fontColor: '#000',
+						display: true,
+						text: d
+					},
+					legend: {
+						display: true,
+						onClikc: function(event, legendItem) {
+							legendItem.fillStyle = '#000'
+							console.log(legendItem)
+						}
+					},
+					labels: {
+						fontColor: 'pink',
+						boxWidth: 190
+					},
+					//					      提示框
+					tooltips: {
+						backgroundColor: '#000',
+						titleFontColor: 'blue',
+						bodyFontColor: '#3ff'
+					}
+				}
+			});
+		}
+	
+</script>

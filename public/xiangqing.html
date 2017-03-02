@@ -1,33 +1,108 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<script type="text/javascript" src="javascripts/jquery-2.1.4.min.js" ></script>
-	</head>
-	<body>
-		<script>
-			var urll=window.location.href;
-			var url1=urll.split("?");
-			var url2=url1[1].split("=");
-			//alert(url2[1])
-			$.ajax({
-				type:"get",
-				url:"http://localhost:8006/item/xiangq",
-				async:true,
-				data:{uid:url2[1]},
-				success:function(e){
-					var oli="";
-					$(e).each(function(n,m){
-						oli+="<ul><li>用户名："+m.uname+"</li><li>电话："+m.utel+"</li><li>邮箱："+m.uemail+"</li><li>昵称："+m.unicheng+"</li><li><button id='xiugai'>修改</button></li></ul>"
-					})
-					$("body").html(oli);
-					$("#xiugai").click(function(){
-				location.href="xiugai.html?uid="+url2[1];
-			})
-				}
-			});
-			
-		</script>
-	</body>
+		<link rel="stylesheet" type="text/css" href="stylesheets/detail.css"/>
+		<script src="javascripts/jquery-2.1.4.min.js"></script>
+		<body>
+			<div class="nav">
+
+			</div>
+			<div class="main">
+				<div class="leftbar">
+				<ul>
+						<li style="margin-top:23px;">
+							<a href="javascript:;" id="culist">客户列表</a>
+						</li>
+						<li>
+							<a href="javascript:;" id="ghlist">公海信息</a>
+						</li>
+						<li>
+							<a href="javascript:;" id="tongji">统计信息</a>
+						</li>
+					</ul>
+				</div>
+				<!--客户信息-->
+				<div class="y_conner" style="width: 80%;height:836px;float: right;padding-top: 20px;">
+					<div class="y_conner_cen">
+						<div class="y_conner_cen_top">
+							<div class="y_conner_top">
+								<span>客户信息</span>
+							</div>
+							<div class="y_conner_bottom">
+								
+								
+								
+								
+							</div>
+						</div>
+					
+					<div class="y_conner_toh">
+						<div class="y_conner_navtop">
+							<span class="y_conner_nav">
+								<p>通话记录</p>
+							</span>
+							<span class="y_conner_navbo">
+							
+							</span>
+						</div>
+					</div>
+				
+				</div>
+
+					
+				</div>
+			</div>
+		</body>
+
 </html>
+
+
+<script type="text/javascript">
+			function pageName() {
+				var strUrl = location.href;
+				var arrUrl = strUrl.split("=");
+				var strPage = arrUrl[1];
+				return strPage
+			}
+			$.ajax({
+			type:"get",
+			url:"http://localhost:8006/item/detail",
+			async:true,
+			data:{
+				uid:pageName()
+			},
+			success:function(e){
+				console.log(e)
+				var html = '<div class="y_bottom_left"></div>\
+								<div class="y_bottom_right">\
+									<span class="y_bottom_detail_top">\
+										<ul>\
+											<li>客户名称：'+e[0].uname+'</li>\
+											<li>客户年龄：'+e[0].age+'</li>\
+											<li>客户年龄：'+e[0].sex+'</li>\
+										</ul>\
+										<ul class="y_bottom_ulleft">\
+											<li>客户email：'+e[0].uemail+'</li>\
+									</span><br />\
+									<span>\
+									<ul>\
+										<li>客户地址：'+e[0].address+'</li>\
+										<li>客户电话：'+e[0].utel+'</li>\
+									</ul>\
+									</span>\
+								</div>\
+							</div>';
+//				for(var i = 0;i<e.length;i++){
+//					html+=""
+//					console.log(e[i].cid)
+//				}
+				$('.y_conner_bottom').html(html)
+			},
+			error:function(){
+				alert('error')
+			}
+		});
+</script>

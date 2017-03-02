@@ -5,7 +5,15 @@
 }
 .yky_list{
 	width: 80%;
+	box-sizing: border-box;
 	padding-left: 30px;
+	float: left;
+	/*background: lightblue;*/
+}
+.yky_ghlist{
+	width: 80%;
+	padding-left: 30px;
+	box-sizing: border-box;
 	float: left;
 	/*background: lightblue;*/
 }
@@ -24,8 +32,10 @@
 .yky_header input{
 	width: 600px;
 	height: 35px;
+	border: none;
+	padding-left: 10px;
 }
-.yky_header button{
+#tianjia{
 	width: 140px;
 	height: 35px;
 	margin-left: 10px;
@@ -81,4 +91,12 @@
 	width: 40px;
 	float: left;
 	margin-top: 16px;
+}
+
+#sea{
+	width: 40px;
+	height: 34px;
+	
+	background: none;
+	border: none;
 }

@@ -108,7 +108,7 @@ router.get("/del",function(req,res){
 	var uid = req.param('uid');
 	console.log(uid)
 	pool.getConnection(function(err,connection){
-		var sql="delete from custom where uid = ?";
+		var sql="update custom set cid = '-1' where uid = ?";
 		connection.query(sql,[uid],function(err,result){
 			
 				if(err){
@@ -123,6 +123,30 @@ router.get("/del",function(req,res){
 		
 	})
 })
+
+//转出公海
+router.get("/ghdel",function(req,res){
+	var id = req.param('uid');
+	var uid = req.session.uid;
+	console.log(uid)
+	pool.getConnection(function(err,connection){
+		var sql="update custom set cid = ? where uid = ?";
+		connection.query(sql,[uid,id],function(err,result){
+			
+				if(err){
+					res.send({flag:2})
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				console.log(result+">>>>>")
+				res.send({flag:1});
+		})
+		
+	})
+})
+
+
 
 router.get("/xiangq",function(req,res){
 	var uid = req.param('uid');
@@ -240,5 +264,139 @@ router.get("/xiugai",function(req,res){
 	}
 });
 
+	//搜索
+	router.get('/sea', function(req, res) {
+	console.log('into page...');
+	if(req.session.uname){
+	var page = req.query.page;
+	var uid = req.session.uid;
+	var uname=req.query.uname;
+	var total = 0;
+	var pageNum = 2;
+	var startPage = (page-1)*pageNum;
+		console.log('page'+ uid);
+	pool.getConnection(function(err, connection) {
+		var sql = 'select * from custom where cid = ? && uname = ?';
+		connection.query(sql, [uid,uname], function(err, result) {
+			if(err) {
+				return;
+			}
+			total = result.length;
+//			console.log("result:" + result.length);
+			console.log('total:' + total)
+			connection.release(); //释放连接
+			if(total > 0) {
+				pool.getConnection(function(err, connection) {
+					var sql = 'select * from custom where cid = ? limit ?,?';
+					connection.query(sql, [uid,startPage,pageNum], function(err, result) {
+						if(err) {
+							return;
+						}
+						console.log("result:" + result.length);
+						connection.release(); //释放连接
+						res.send({pageNum:pageNum,total:total,result:result});
+					})
+				})
+			}else{
+				res.send({flag:3})
+			}
+		})
+	})
+}else{
+		res.send({flag:2})
+	}
+});
+
+
+
+
+
+
+	//公海分页。。。。。
+	router.get('/ghpage', function(req, res) {
+	console.log('into page...');
+	if(req.session.uname){
+	var page = req.query.page;
+	var uid = req.session.uid;
+	var total = 0;
+	var pageNum = 2;
+	var startPage = (page-1)*pageNum;
+		console.log('page'+ uid);
+	pool.getConnection(function(err, connection) {
+		var sql = 'select * from custom where cid = -1';
+		connection.query(sql, function(err, result) {
+			if(err) {
+				return;
+			}
+			total = result.length;
+//			console.log("result:" + result.length);
+			console.log('total>>>>>>>>>>>>:' + total)
+			connection.release(); //释放连接
+			if(total > 0) {
+				pool.getConnection(function(err, connection) {
+					var sql = 'select * from custom where cid = -1 limit ?,?';
+					connection.query(sql, [startPage,pageNum], function(err, result) {
+						if(err) {
+							return;
+						}
+						console.log("result:" + result.length);
+						connection.release(); //释放连接
+						res.send({pageNum:pageNum,total:total,result:result});
+					})
+				})
+			}
+		})
+	})
+}else{
+		res.send({flag:2})
+	}
+});
+
+
+//添加
+router.post("/adds",function(req,res){
+	var cid=1;
+	var uname=req.body['uname'];
+	var usex=req.body['usex'];
+	var uemail=req.body['uemail'];
+	var uqq=req.body['uqq'];
+	var uaddress=req.body['uaddress'];
+	var utel=req.body['utel'];
+	var age=req.body['uage'];
+	var teg=req.body['teg'];
+	pool.getConnection(function(err,connection){
+		var sql = "insert into custom (cid,uname,usex,uemail,uqq,uaddress,utel,age,teg) values (?,?,?,?,?,?,?,?,?)";
+		connection.query(sql,[cid,uname,usex,uemail,uqq,uaddress,utel,age,teg],function(err,result){
+			if(err){
+			  return;	
+			  res.send({flag:2});
+			}
+			connection.release();
+			res.send({flag:1});
+		})
+	})
+})
+
+
+//详情
+router.get("/detail",function(req,res){
+	var uid = req.param('uid');
+	console.log(uid)
+	pool.getConnection(function(err,connection){
+		var sql="select * from custom where uid = ?";
+		connection.query(sql,[uid],function(err,result){
+			
+				if(err){
+					res.send({flag:2})
+					console.log("error:"+err.message);
+					return;
+				}
+				connection.release();//释放连接
+				console.log(result+">>>>>")
+				res.send(result);
+		})
+		
+	})
+})
 	
 module.exports = router;

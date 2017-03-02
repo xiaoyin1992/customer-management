@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="stylesheets/xinxi.css" />
 		<link href="stylesheets/information.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="stylesheets/svg/font.css" />
+		<link rel="stylesheet" type="text/css" href="stylesheets/detail.css"/>
 		<script type="text/javascript" src="javascripts/jquery-2.1.4.min.js" ></script>
 		<script src="javascripts/information.js" type="text/javascript"></script>
 		<script type="text/javascript" src="javascripts/Chart.min.js" ></script>
@@ -16,6 +17,20 @@
 			<canvas id="myChart" width="400" height="400"></canvas>
 		</div>-->
 		<div class="bg">
+			<p>客户管理系统</p>
+			<div class="bg_right">
+				<div style="width:38px;height:38px;float:left;margin-left:25px;margin-top:15px;">
+					<img src="images/toux.png" id="dianji">
+				</div>
+				<div id="chux">
+					<a>个人中心</a>
+				    </br>
+					<a>设置</a>
+					</br>
+					<a>退出</a>
+				</div>
+			</div>
+		</div>
 			<div class="main">
 				<div class="leftbar">
 					<ul>
@@ -31,55 +46,15 @@
 					</ul>
 				</div>
 			
-			<!--客户信息-->
-			<div class="box" style="display: none;">
-			<div class="y_conner">
-				<div class="y_conner_cen">
-					<div class="y_conner_cen_top">
-						<div class="y_conner_top">
-							<span>客户信息</span>
-						</div>
-						<div class="y_conner_bottom">
-							<div class="y_bottom_left"></div>
-							<div class="y_bottom_right">
-								<span class="y_bottom_detail_top">
-									<ul>
-										<li>客户名称：陈晓明</li>
-										<li>证件类型：陈晓明</li>
-										<li>客户名称：陈晓明</li>
-									</ul>
-									<ul class="y_bottom_ulleft">
-										<li>客户编码：12346i</li>
-										<li>客户编码：12346i</li>
-										<li>客户编码：12346i</li>
-									</ul>
-								</span><br />
-								<span>
-									<ul>
-										<li>客户地址：北京市大兴区</li>
-										<li>客户电话：123456789</li>
-									</ul>
-								</span>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				
-				<div class="y_conner_toh">
-					<div class="y_conner_navtop">
-						<span class="y_conner_nav">
-							<p>通话记录</p>
-						</span>
-						<span class="y_conner_navbo">
-							
-						</span>
-					</div>
-				</div>
-
-			</div>
-		</div>
 			
+			
+			<!--客户统计信息-->
+				<div class="y_conner1" style="width: 80%;height:836px;float: right; display: none;">
+						<span class="t_nav">统计信息</span>
+						<div class="t_bottom">
+							<canvas id="chart"></canvas>
+						</div>
+				</div>
 			
 			<!--添加客户-->
 			<div class="rightbar" style="display: none;">
@@ -92,9 +67,9 @@
 								  <input type="text" placeholder="userneme" id="username" />
 								  <span id="tishi1"></span>
 								</li>
-								<li>
+								<li id="xingbie">
 									<div>性别：</div>
-									<input style="width:30px;height:20px;" type="radio" checked="checked" name="sex" value="男" />男
+									<input style="width:30px;height:20px;" type="radio" name="sex" value="男" />男
 		                                <input  style="width:30px;height:20px;" type="radio" name="sex" value="女" />女
 								<span id="tishi2"></span>
 								</li>
@@ -114,8 +89,8 @@
 									<span id="tishi5"></span>
 								</li>
 								<li>
-									<div>爱好：</div>
-									<input type="text" placeholder="like" id="like"  />
+									<div>年纪：</div>
+									<input type="text" placeholder="age" id="age"  />
 									<span id="tishi6"></span>
 								</li>
 								<li>
@@ -123,11 +98,11 @@
 									<input type="text" placeholder="qq" id="qq"  />
 									<span id="tishi7"></span>
 								</li>
-								<li>
+								<li id="chengdu">
 									<div>客户等级：</div>
-									<input style="width:30px;height:20px;" type="radio" checked="checked"  value="高" />高
-									       <input style="width:30px;height:20px;" type="radio"  value="中" />中
-									       <input style="width:30px;height:20px;" type="radio"  value="低" />低
+									<input style="width:30px;height:20px;" type="radio" name="cd"   value="高" />高
+									       <input style="width:30px;height:20px;" type="radio" name="cd"  value="中" />中
+									       <input style="width:30px;height:20px;" type="radio"  name="cd" value="低" />低
 									<span id="tishi8"></span>
 								</li>
 								<li style="height:250px;">
@@ -150,13 +125,15 @@
 		<div class="yky_list">
 			<div class="yky_title">客户信息</div>
 			<div class="yky_content">
-				<div class="yky_header"><input type="search" name="search" id="search" value="" placeholder="搜素..." /><button id="tianjia">+添加用户</button></div>
+				<div class="yky_header">
+					<div style="display: inline-block; border: 1px solid #333;">
+					<input type="search" name="search" id="search" value="" placeholder="搜素..." /><button id="sea" class="icon-search"></button></div><button id="tianjia">+添加用户</button></div>
 				<div class="yky_li_con">
-					<ul class="yky_ul">
+					<ul class="yky_ul" id="yky_ul">
 						
 					</ul>
 				</div>
-				<div class="yky_control">
+				<div class="yky_control" id="yky_control">
 						
 						<!--<span>跳转到</span><input id="pagenum" type="number" value="" />-->
 					</div>
@@ -164,22 +141,75 @@
 		</div>
 		
 		
+		<!--公海列表-->
+		<div class="yky_ghlist" style="display: none;">
+			<div class="yky_title">公海列表</div>
+			<div class="yky_content">
+				<!--<div class="yky_header"><input type="search" name="search" id="search" value="" placeholder="搜素..." /><button id="tianjia">+添加用户</button></div>-->
+				<div class="yky_li_con">
+					<ul class="yky_ul" id="yky_ghul">
+						
+					</ul>
+				</div>
+				<div class="yky_control" id="yky_ghcontrol">
+						
+						<!--<span>跳转到</span><input id="pagenum" type="number" value="" />-->
+					</div>
+			</div>
 		</div>
+		
+		
+		<!--客户信息-->
+				<div class="y_conner" style="width: 80%;height:836px;float: right;padding-top: 20px; display: none;">
+					<div class="y_conner_cen">
+						<div class="y_conner_cen_top">
+							<div class="y_conner_top">
+								<span>客户信息</span>
+							</div>
+							<div class="y_conner_bottom">
+								
+								
+								
+								
+							</div>
+						</div>
+					
+					<div class="y_conner_toh">
+						<div class="y_conner_navtop">
+							<span class="y_conner_nav">
+								<p>通话记录</p>
+							</span>
+							<span class="y_conner_navbo">
+							
+							</span>
+						</div>
+					</div>
+				
+				</div>
+
+					
+				</div>
+		
+		
 		</div>
+		
 <script type="text/javascript" src="javascripts/xinxi.js" ></script>
 <script>
 	$("#culist").click(function(){
 		$(".yky_list").css("display","block");	
 		$(".box").css("display","none");
 		$(".rightbar").css("display","none");
+		$(".yky_ghlist").css("display","none");
 	})
 	$("#tianjia").click(function(){
 		$(".rightbar").css("display","block");	
 		$(".box").css("display","none");
 		$(".yky_list").css("display","none");
+		$(".yky_ghlist").css("display","none");
 	})
-	$("#").click(function(){
-		$(".yky_list").css("display","block");	
+	$("#ghlist").click(function(){
+		$(".yky_ghlist").css("display","block");
+		$(".yky_list").css("display","none");	
 		$(".box").css("display","none");
 		$(".rightbar").css("display","none");
 	})

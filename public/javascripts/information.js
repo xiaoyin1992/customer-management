@@ -4,7 +4,7 @@ $(function(){
 	var phone=/^1[34578]\d{9}$/;
 	var address=/[a-zA-Z0-9]{1,10}|[\x4e00-\x9fa5]{5,}/g;
 	var age=/[a-zA-Z0-9]{1,10}|[\x4e00-\x9fa5]{1,5}/g;
-	var qq=/^[1-9]d{4,8}$/;
+	var qq=/[a-zA-Z0-9]{1,10}|[\x4e00-\x9fa5]{1,5}/g;
 	var reg1=false,reg2=false,reg3=false,reg4=false,reg5=false,reg6=false,reg7=false,reg8=false;
 	$('#username').blur(function(){
 			if(!username.test($('#username').val())){
@@ -44,7 +44,7 @@ $(function(){
 		})
 	$('#age').blur(function(){
 			if(!age.test($('#age').val())){
-				$('#tishi6').text('请输入爱好！');
+				$('#tishi6').text('请输入年纪！');
 				
 			}else{		
 				$('#tishi6').text('');	
@@ -60,18 +60,26 @@ $(function(){
 				reg7=true;
 			}
 		})
+	$('#dianji').click(function(){
+		$('#chux').css({display:'block'})
+	})
 	$('#determine').click(function(){
-		if(reg1&&reg3&&reg4&&reg5&&reg6&&reg7){
+//		if(reg1&&reg3&&reg4&&reg5&&reg6&&reg7){
 			$.ajax({
-				type:"get",
-				url:"",
-				async:true
+				type:"post",
+				url:"http://localhost:8006/item/adds",
+				async:true,
+				data:{'uname':$('#username').val(),'uemail':$('#email').val(),'uqq':$('#qq').val(),'utel':$('#phone').val(),'usex':$('#xingbie input[name="sex"]:checked').val(),'uaddress':$('#address').val(),'uage':$('#age').val(),'teg':$('#chengdu input[name="cd"]:checked').val()},
+			    success:function(e){
+			    	if(e.flag==1){
+			    		alert('添加成功！')
+			    	}
+			    },
+			    error:function(){
+			    	
+			    }
 			});
-		}
+//		}
 	})
 	
 })
-	
-
-	
-
