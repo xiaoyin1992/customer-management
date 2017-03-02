@@ -144,6 +144,16 @@ $.ajax({
 		$(".yky_ghlist").css("display","none");
 						getlist(1);
 					})
+					$('#houtui').click(function(){
+						$(".y_conner").css("display","none");
+				$(".yky_list").css("display","block");	
+		$(".box").css("display","none");
+		$(".y_conner1").css("display","none");
+		$("y_conner").css("display","none");
+		$(".rightbar").css("display","none");
+		$(".yky_ghlist").css("display","none");
+						getlist(1);
+					})
 					
 //公海信息
 

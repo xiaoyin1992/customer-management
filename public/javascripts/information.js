@@ -61,7 +61,7 @@ $(function(){
 			}
 		})
 	$('#dianji').click(function(){
-		$('#chux').css({display:'block'})
+		window.location.href='login.html';
 	})
 	$('#determine').click(function(){
 //		if(reg1&&reg3&&reg4&&reg5&&reg6&&reg7){
