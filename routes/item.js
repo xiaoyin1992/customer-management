@@ -5,7 +5,7 @@ var mysql = require('mysql');
 var pool = mysql.createPool({
 	host:'127.0.0.1',
 	user:'root',
-	password:'',
+	password:'37774950',
 	database:'crm',
 	port:'3306'
 })
@@ -355,7 +355,7 @@ router.get("/xiugai",function(req,res){
 
 //添加
 router.post("/adds",function(req,res){
-	var cid=1;
+	var cid=req.session.uid;
 	var uname=req.body['uname'];
 	var usex=req.body['usex'];
 	var uemail=req.body['uemail'];
