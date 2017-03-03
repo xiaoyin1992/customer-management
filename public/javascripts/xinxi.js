@@ -404,6 +404,7 @@ $("#tongji").click(function(){
 					}]
 				},
 				options: {
+					
 					title: {
 						fontColor: '#000',
 						display: true,
